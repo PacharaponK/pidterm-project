@@ -29,9 +29,9 @@ export default function LoginPage() {
 		login(email, password);
 	};
 
-	if (authContext?.state.isLoggedIn) {
-		navigate("/home");
-	}
+	// if (authContext?.state.isLoggedIn) {
+	// 	navigate("/home");
+	// }
 
 	return (
 		<ContextProvider>

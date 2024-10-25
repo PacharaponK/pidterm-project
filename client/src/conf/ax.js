@@ -6,7 +6,7 @@ export const axData = {
 }
 
 const ax = axios.create({
-  baseURL: conf.apiUrlPrefix,
+  baseURL: conf.urlPrefix,
   withCredentials: true,
 })
 

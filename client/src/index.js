@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ContextProvider } from './context/Auth.context';
+import HomePage from './pages/Home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,6 +14,7 @@ root.render(
       <Router>
         <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/home" element={<HomePage />} />
         </Routes>
       </Router>
     </ContextProvider>

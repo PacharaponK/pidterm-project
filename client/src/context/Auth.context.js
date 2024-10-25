@@ -82,7 +82,7 @@ const fetchLogin = async (username, password, callback) => {
     try {
         const response = await ax.post(conf.loginEndpoint, {
             email: username,
-            password,
+            password: password,
         });
 
         if (response.data.access_token) {

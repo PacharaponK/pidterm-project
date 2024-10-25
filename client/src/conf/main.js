@@ -1,7 +1,6 @@
 const conf = {
-  apiUrlPrefix: 'http://localhost:1337/api',
   urlPrefix: 'http://localhost:1337',
-  loginEndpoint: '/auth/local',
+  loginEndpoint: '/auth/login',
   registerEndpoint: '/auth/local/register',
   jwtUserEndpoint: '/members/profile',
   jwtSessionStorageKey: 'auth.jwt',
