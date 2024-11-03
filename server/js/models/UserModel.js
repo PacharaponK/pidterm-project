@@ -37,14 +37,9 @@ UserSchema.method("isValidPassword", function (password) {
 });
 UserSchema.static("isUserExits", function (email) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (yield this.findOne({ email: email }))
-            return true;
-        return false;
+        return yield this.findOne({ email: email });
     });
 });
-// UserSchema.method("isValidPassword", async function (password: string): Promise<boolean> {
-// 	return await compare(password, this.password);
-// });
 const saltRounds = 10;
 UserSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {

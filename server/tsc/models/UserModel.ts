@@ -12,7 +12,7 @@ interface IUserMedthods {
 }
 
 interface UserModel extends Model<IUser, {}, IUserMedthods> {
-	isUserExits: (email: string) => Promise<boolean>;
+	isUserExits: (email: string) => Promise<HydratedDocument<IUser, IUserMedthods>>;
 }
 
 const UserSchema = new Schema<IUser, UserModel, IUserMedthods>(
@@ -42,13 +42,8 @@ UserSchema.method("isValidPassword", async function (password: string): Promise<
 });
 
 UserSchema.static("isUserExits", async function (email: string) {
-	if (await this.findOne({ email: email })) return true;
-	return false;
+	return await this.findOne({ email: email });
 });
-
-// UserSchema.method("isValidPassword", async function (password: string): Promise<boolean> {
-// 	return await compare(password, this.password);
-// });
 
 const saltRounds: number = 10;
 

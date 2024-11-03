@@ -1,44 +1,24 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import mongoose from "mongoose";
-import { User } from "./UserModel";
+import userRoutes from "./router/userRoutes";
+import errorHandler from "./middlewares/errorHandler";
+import dotenv from "dotenv";
+
+dotenv.config();
+const PORT = process.env.PORT || 3001;
+const MONGO_URL = process.env.MONGO_URL || "MONGO_URL";
+const URL = process.env.URL || "localhost";
 
 const app = express();
-const PORT = 3001;
-
-mongoose
-	.connect("mongodb+srv://admin:Realtime123@realtime.9zx7z.mongodb.net/")
-	.catch((err) => console.log(err));
+mongoose.connect(MONGO_URL).catch((err) => console.log(err));
 
 app.use(express.json());
+app.use("/users", userRoutes);
 
-app.post("/register", async (req: Request, res: Response, next: NextFunction) => {
-	const body = req.body;
-	if (await User.isUserExits(body.email)) {
-		res
-			.status(409)
-			.send({ mes: "The email address is already in use. Please provide a different email" });
-	}
-	const user = new User(body);
-	await user.save();
-	const { password, ...acc } = user.toObject();
-	res.status(201).json({ message: "Account created successfully.", user: { acc } });
-});
-
-app.get("/login", async (req: Request, res: Response, next: NextFunction) => {
-	const body = req.body;
-	const isUserExits = await User.findOne({ email: body.email });
-	if (!isUserExits) {
-		res.status(404).json({
-			message:
-				"No account found with that email address. Please check your email or register for a new account.",
-		});
-	}
-
-	res.status(200).send({ mes: "ok" });
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
-	console.log(`[Server] Server is running on http://localhost:${PORT}`);
+	console.log(`[Server] Server is running on http://${URL}:${PORT}`);
 });
 
 mongoose.connection.on("connected", () => {
