@@ -19,9 +19,13 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const UserModel_1 = require("../models/UserModel");
+const authenticateJWT_1 = __importDefault(require("../middlewares/authenticateJWT"));
 const router = (0, express_1.Router)();
 router.post("/register", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -71,10 +75,14 @@ router.get("/login", (req, res, next) => __awaiter(void 0, void 0, void 0, funct
             return;
         }
         // JWT Response
-        res.status(200).send({ msg: "USER JWT" });
+        const JWT = user.generateJWT(email);
+        res.status(200).send({ Token: JWT });
     }
     catch (err) {
         next(err);
     }
+}));
+router.get("/test", authenticateJWT_1.default, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send({ msg: "ok" });
 }));
 exports.default = router;

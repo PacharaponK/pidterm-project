@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import { User } from "../models/UserModel";
+import authenticateJWT from "../middlewares/authenticateJWT";
 
 const router = Router();
 
@@ -58,10 +59,15 @@ router.get("/login", async (req: Request, res: Response, next: NextFunction) => 
 			return;
 		}
 		// JWT Response
-		res.status(200).send({ msg: "USER JWT" });
+		const JWT = user.generateJWT(email);
+		res.status(200).send({ Token: JWT });
 	} catch (err) {
 		next(err);
 	}
+});
+
+router.get("/test", authenticateJWT, async (req: Request, res: Response, next: NextFunction) => {
+	res.send({ msg: "ok" });
 });
 
 export default router;

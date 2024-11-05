@@ -8,10 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
+const jsonwebtoken_1 = require("jsonwebtoken");
 const bcrypt_1 = require("bcrypt");
 const mongoose_1 = require("mongoose");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const UserSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     email: {
@@ -34,6 +40,9 @@ UserSchema.method("isValidPassword", function (password) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield (0, bcrypt_1.compare)(password, this.password);
     });
+});
+UserSchema.method("generateJWT", function (email) {
+    return (0, jsonwebtoken_1.sign)({ email }, process.env.SECRET_KEY, { expiresIn: 60 * 5 });
 });
 UserSchema.static("isUserExits", function (email) {
     return __awaiter(this, void 0, void 0, function* () {

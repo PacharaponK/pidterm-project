@@ -10,7 +10,7 @@ const errorHandler_1 = __importDefault(require("./middlewares/errorHandler"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const PORT = process.env.PORT || 3001;
-const MONGO_URL = process.env.MONGO_URL || "MONGO_URL";
+const MONGO_URL = process.env.MONGO_URL;
 const URL = process.env.URL || "localhost";
 const app = (0, express_1.default)();
 mongoose_1.default.connect(MONGO_URL).catch((err) => console.log(err));
